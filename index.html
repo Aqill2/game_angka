@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Game tebak angka</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #72edf2 10%, #5151e5 100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      color: #fff;
+    }
+
+    .container {
+      background: rgba(0, 0, 0, 0.5);
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+      text-align: center;
+      width: 350px;
+      animation: fadeIn 2s ease-in-out;
+    }
+
+    h1 {
+      color: #fff;
+      margin-bottom: 20px;
+      font-weight: 700;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    p {
+      margin: 10px 0;
+    }
+
+    input[type="number"] {
+      width: calc(100% - 20px);
+      padding: 10px;
+      margin-bottom: 20px;
+      border: 2px solid #ccc;
+      border-radius: 4px;
+    }
+
+    button {
+      background-color: #ff9800;
+      color: white;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      margin: 5px;
+      transition: background 0.3s ease, transform 0.3 ease;
+    }
+
+    button:hover {
+      background-color: #e68900;
+      transform: scale(1.1);
+    }
+
+    #pesan {
+      margin-top: 20px;
+      font-weight: bold;
+    }
+
+    #restartButton {
+      display: none;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes bounceIn {
+      0% {
+        transform: scale(0.5);
+        opacity: 0.5;
+      }
+
+      70% {
+        transform: scale(1.2);
+        opacity: 1;
+      }
+
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    .animate-heading {
+      animation: bounceIn 1.5s ease-in-out;
+    }
+
+    .animate-button {
+      animation: fadeIn 3s ease-in-out;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>Game tebak angka</h1>
+    <hr>
+    <h3>Masukan angka antara 1 dan 100:</h3>
+    <form id="tebakForm" onsubmit="return false;">
+      <input type="number" id="inputan" required min="1" max="100"><br><br>
+      <button type="submit" onclick="periksainputan()">Tebak!</button>
+      <button id="restartButton" type="button" onclick="mulaiUlang()">Mulai Ulang</button>
+    </form>
+    <p id="pesan"></p>
+  </div>
+  <script>
+    let angkaRandom = Math.floor(Math.random() * 100) + 1;
+
+    const inputan = document.getElementById('inputan');
+    const pesan = document.getElementById('pesan');
+    const restartButton = document.getElementById('restartButton');
+
+    let percobaan = 0;
+
+    function periksainputan() {
+      percobaan++;
+
+      const inputan_user = parseInt(inputan.value);
+
+      if (inputan_user === angkaRandom) {
+        pesan.textContent = `Selamat! Anda Menebak angka yang benar (${angkaRandom}) dengan ${percobaan} tebakan.`;
+        pesan.style.color = 'lightgreen';
+        inputan.disabled = true;
+        alert(`Selamat! Anda Menebak angka yang benar (${angkaRandom}) dengan ${percobaan} tebakan.`);
+        restartButton.style.display = 'inline-block';
+      } else if (inputan_user < angkaRandom) {
+        pesan.textContent = 'Tebakan Anda terlalu kecil, coba lagi.';
+        pesan.style.color = 'red';
+        alert('Tebakan Anda terlalu kecil, coba lagi.');
+      } else if (inputan_user > angkaRandom) {
+        pesan.textContent = 'Tebakan Anda terlalu besar, coba lagi.';
+        pesan.style.color = 'red';
+        alert('Tebakan Anda terlalu besar, coba lagi.');
+      }
+      inputan.value = '';
+      inputan.focus();
+    }
+
+    function mulaiUlang() {
+      angkaRandom = Math.floor(Math.random() * 100) + 1;
+      percobaan = 0;
+      pesan.textContent = '';
+      inputan.value = '';
+      inputan.disabled = false;
+      restartButton.style.display = 'none';
+      inputan.focus();
+    }
+  </script>
+</body>
+
+</html>
